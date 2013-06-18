@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html ng-app='scheduler'>
 <head>
 <title>Bootstrap 101 Template</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
 <link href="css/app.css" rel="stylesheet" media="screen">
-
+<link href="lib/css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
-<body ng-app>
-<h1>{2 + 4}</h1>
-<div id="schedule">
+<body>
+<h1>{{2 + 4}}</h1>
+
+<div class="schedule" ng-controller='ScheduleController'>
+    <div class='day' ng-repeat="day in schedule.days">
+        <div class='day-details'>
+            {{day.dayId}}
+        </div>
+        <div class='widgets'>
+            <div class='widget' ng-repeat="widget in day.dayWidget">{{widget.widgetName}}</div>
+            <button class='btn-block new-widget-btn'>+</button>
+        </div>
+    </div>
+</div>
+
+<div class="schedule">
     <div class='day'>
         <div class='day-details'>
             1
@@ -18,7 +31,7 @@
             <div class='widget'>Hey</div>
             <div class='widget'>Hey</div>
             <div class='widget'>Hey</div>
-            <button clas='btn'>+</button>
+            <button class='btn-block new-widget-btn'>+</button>
         </div>
     </div>
     <div class='day'>
@@ -48,6 +61,7 @@
     <script src="lib/js/jquery-1.10.1.min.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
     <script src="lib/js/angular.min.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 </html>

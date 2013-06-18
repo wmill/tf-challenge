@@ -1,4 +1,4 @@
-#schedule {
+.schedule {
 	border:1px solid black;
 	overflow-x: scroll;
 	white-space: nowrap;
@@ -22,5 +22,13 @@
 
 .widget {
 	margin: 5px;
+
+}
+
+.new-widget-btn {
+	text-align: center;
+}
+
+.new-day-btn {
 
 }
