@@ -8,12 +8,17 @@
 	vertical-align: text-top;
 	border:1px solid black;
 	display: inline-block;
+	padding: 0 !IMPORTANT;
+	margin: 0 !IMPORTANT;
 }
 
 .day-details {
 	width: 100px; 
 	height: 75px;
+	padding: 0 !IMPORTANT;
+	margin: 0 !IMPORTANT;
 }
+
 
 
 .widgets {
@@ -29,6 +34,11 @@
 	text-align: center;
 }
 
-.new-day-btn {
+.new-day-btn-container {
+	display: inline-block;
+}
 
+.new-day-btn {
+	padding-top: 20px;
+	display: block;
 }
