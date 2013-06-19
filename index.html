@@ -3,6 +3,7 @@
 <head>
 <title>Bootstrap 101 Template</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <!-- Bootstrap -->
 <link href="css/app.css" rel="stylesheet" media="screen">
 <link href="lib/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -17,12 +18,12 @@
    </form></h1>
 
 <div class="schedule">
-    <div class='day' ng-repeat="day in schedule.days">
+    <div class='day' ng-repeat="day in schedule.days" recieveswidget='{{day.dayId}}'>
         <div class='day-details'>
             {{day.dayId}}
         </div>
         <div class='widgets'>
-            <div class='widget' ng-repeat="widget in day.dayWidget">{{widget.widgetName}}</div>
+            <div class='widget'  draggablewidget='{{widget.widgetId}}' ng-repeat="widget in day.dayWidget">{{widget.widgetName}}</div>
             <widget target='day'></widget>
         </div>
     </div>
