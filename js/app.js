@@ -13,40 +13,44 @@ app.controller("ScheduleController", function ($scope, Schedule){
 	$scope.title = "Scheduler";
 	$scope.new_day_open = {};
 
-	$scope.addWidget = function(dayId){
-		$scope.new_day_open[dayId] = true;
+	$scope.ctrlrFn = function(day, widgetName){
+		//$scope.new_day_open[dayId] = true;
+		//console.log(dayId, widgetName);
+
+		day.dayWidget.push({widgetId: guid(), widgetName: widgetName});
+
 
 		//current_day = day for day in $scope.schedule.days when day.dayId == dayId
-		var current_day, day, _i, _len, _ref;
 
-		_ref = $scope.schedule.days;
-		for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-			day = _ref[_i];
-			if (day.dayId === dayId) {
-				current_day = day;
-			}
-		}
-		console.log(current_day);
 	};
 
 	$scope.addDay = function(){
 		Schedule.addDay();
 
-	}
+	};
 });
 
-app.directive("new-widget", function(){
+app.directive("widget", function(){
 	return {
 		restrict: 'E',
-		scope: {
-			submit: "&",
-			day: '&'
-		},
-		template: '<form ng-show="new_day_open" ng-submit="addWidget(day.dayId,widgetName)">' +
-			'<input type="text" ng-model="widgetName" ng-required/>' +
-            '<br/>' +
-            '<button class="btn" type="submit">Save</button>' +
-            '</form>'
+		scope: true,
+		template: '<form ng-show="new_day_open" ng-submit="testFn()">' +
+		'<input type="text" ng-model="widgetName" ng-required/>' +
+		'<br/>' +
+		'<button class="btn" type="submit">Save</button>' +
+		'<button class="btn" ng-click="new_day_open = false">Cancel</button>' +
+		'</form>' +
+		'<button ng-hide="new_day_open" class="btn-block new-widget-btn" ng-click="new_day_open = true">+</button>',
+		controller: function($scope, $element, $attrs, $location) {
+			$scope.new_day_open = false;
+
+			$scope.testFn = function() {
+				$scope.new_day_open = false;
+				console.log($scope);
+				$scope.ctrlrFn($scope.day,$scope.widgetName);
+				$scope.widgetName = "";
+			};
+		}
 	};
 });
 
@@ -57,9 +61,9 @@ app.factory('Schedule', function(){
 			{
 				dayId: 1,
 				dayWidget: [
-					{widgetId: 1, widgetName: "Foo"},
-					{widgetId: 2, widgetName: "Bar"},
-					{widgetId: 3, widgetName: "Baz"}
+					{widgetId: guid(), widgetName: "Foo"},
+					{widgetId: guid(), widgetName: "Bar"},
+					{widgetId: guid(), widgetName: "Baz"}
 				]
 			},
 			{
@@ -70,8 +74,8 @@ app.factory('Schedule', function(){
 			{
 				dayId: 3,
 				dayWidget: [
-					{widgetId: 1, widgetName: "Foo"},
-					{widgetId: 2, widgetName: "Bar"}
+					{widgetId: guid(), widgetName: "Foo"},
+					{widgetId: guid(), widgetName: "Bar"}
 				]
 			}
 		]
@@ -87,8 +91,22 @@ app.factory('Schedule', function(){
 		});
 	};
 
+
 	return {
 		'schedule': schedule,
 		'addDay': addDay
 	};
 });
+
+
+//helper function
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
+}
+
+function guid() {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+         s4() + '-' + s4() + s4() + s4();
+}

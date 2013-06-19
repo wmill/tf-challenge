@@ -22,18 +22,14 @@
             {{day.dayId}}
         </div>
         <div class='widgets'>
-            <div class='widget' ng-repeat="widget in day.dayWidget" >{{widget.widgetName}}</div>
-            <form ng-show="new_day_open" ng-submit="addWidget(day.dayId)">
-              <label>Name:</label>
-              <input type="text" ng-model="title" placeholder="{{title}}" ng-required/>
-              <br/>
-              <button class="btn" type="submit">Save</button>
-            </form>
-            <button class='btn-block new-widget-btn' ng-click="addWidget(day.dayId)">+</button>
+            <div class='widget' ng-repeat="widget in day.dayWidget">{{widget.widgetName}}</div>
+            <widget target='day'></widget>
         </div>
     </div>
     <div class='new-day-btn-container'><button class='btn new-day-btn' ng-click="addDay()">+</button></div>
 </div>
+
+
 
 
 <script src="lib/js/jquery-1.10.1.min.js"></script>
