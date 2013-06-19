@@ -31,26 +31,20 @@ app.controller("ScheduleController", function ($scope, Schedule){
 			//remove the widget from the day, but keep the object
 			//var day = $scope.schedule.days[i];
 			for (var j=0; j < $scope.schedule.days[i].dayWidget.length; j++){
-				var target = $scope.schedule.days[i].dayWidget[j].widgetId;
-				if (target === widgetId){
+				var target = $scope.schedule.days[i].dayWidget[j];
+				if (target.widgetId === widgetId){
 					widget = target;
-					console.log($scope.schedule.days[i].dayWidget, j)
 					$scope.schedule.days[i].dayWidget.remove(j);
-					console.log($scope.schedule.days[i].dayWidget, j)
 				}
-			} 
+			};
 		}
 
 		var day = _.find($scope.schedule.days, function(day){
 			return day.dayId === dayId;
 		});
-		console.log(day);
 		day.dayWidget.push(widget);
 		$scope.$apply();
-	}
-
-
-	
+	};
 });
 
 app.directive('draggablewidget', function(){
@@ -61,7 +55,7 @@ app.directive('draggablewidget', function(){
 			$element.attr('draggable', true);
 			$element.on('dragstart', function(e) {
 				console.log('dragstart:' + $attrs.draggablewidget);
-				e.originalEvent.dataTransfer.effectAllowed = 'move';
+				e.originalEvent.dataTransfer.effectAllowed = 'Move';
 				e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
 					widgetId: $attrs.draggablewidget
 				}));
