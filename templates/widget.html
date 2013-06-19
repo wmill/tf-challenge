@@ -1,7 +1,7 @@
-<form ng-show="new_day_open" ng-submit="testFn()">
+<form ng-show="show_form" ng-submit="directiveAddWidget()">
 	<input type="text" ng-model="widgetName" ng-required/>
 	<br/>
 	<button class="btn" type="submit">Save</button>
-	<button class="btn" ng-click="new_day_open = false">Cancel</button>
+	<button class="btn" ng-click="show_form = false">Cancel</button>
 </form>
-<button ng-hide="new_day_open" class="btn-block new-widget-btn" ng-click="new_day_open = true">+</button>
+<button ng-hide="show_form" class="btn-block new-widget-btn" ng-click="show_form = true">+</button>

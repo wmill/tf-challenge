@@ -1,42 +1,41 @@
 var app = angular.module('scheduler', []);
 
-app.controller("DaysController", function ($scope, Schedule){
-
-});
-
-app.controller("WidgetsController", function ($scope, Schedule){
-
-});
 
 app.controller("ScheduleController", function ($scope, Schedule){
 	$scope.schedule = Schedule.schedule;
 	$scope.title = "Scheduler";
 	$scope.new_day_open = {};
 
-	$scope.ctrlrFn = function(day, widgetName){
+	$scope.addWidget = function(day, widgetName){
 
 		day.dayWidget.push({widgetId: guid(), widgetName: widgetName});
 
 	};
 
 	$scope.addDay = function(){
-		Schedule.addDay();
+
+		//determine the new day id
+		var max_day = _.max($scope.schedule.days, function(day){
+			return day.dayId;
+		});
+		$scope.schedule.days.push({
+			dayId: max_day.dayId + 1,
+			dayWidget: []
+		});
 
 	};
 
 	$scope.moveWidget = function(dayId, widgetId){
-		//remove the old widget
 		var widget;
 		for (var i=0; i < $scope.schedule.days.length; i++){
 			//remove the widget from the day, but keep the object
-			//var day = $scope.schedule.days[i];
 			for (var j=0; j < $scope.schedule.days[i].dayWidget.length; j++){
 				var target = $scope.schedule.days[i].dayWidget[j];
 				if (target.widgetId === widgetId){
 					widget = target;
 					$scope.schedule.days[i].dayWidget.remove(j);
 				}
-			};
+			}
 		}
 
 		var day = _.find($scope.schedule.days, function(day){
@@ -54,8 +53,7 @@ app.directive('draggablewidget', function(){
 		controller: function($scope, $element, $attrs, $location){
 			$element.attr('draggable', true);
 			$element.on('dragstart', function(e) {
-				console.log('dragstart:' + $attrs.draggablewidget);
-				e.originalEvent.dataTransfer.effectAllowed = 'Move';
+				//data is sent as text, so JSON encode it.
 				e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
 					widgetId: $attrs.draggablewidget
 				}));
@@ -70,20 +68,21 @@ app.directive('recieveswidget', function(){
 		restrict: 'A',
 		scope: true,
 		controller: function($scope, $element, $attrs, $location) {
-			
 			$element.on('dragover', function(e){
 				e.preventDefault();
 			});
 			$element.on('drop', function(e){
+				//everything is a string, need to parse it
 				var dayId = parseInt($attrs.recieveswidget,10);
 				var data = JSON.parse(e.originalEvent.dataTransfer.getData('text/plain'));
-				console.log(data, dayId);
+
 				e.preventDefault();
+
 				$scope.moveWidget(dayId, data.widgetId);
 			});
 		}
-	}
-})
+	};
+});
 
 
 app.directive("widget", function(){
@@ -92,12 +91,13 @@ app.directive("widget", function(){
 		scope: true,
 		templateUrl: 'templates/widget.html',
 		controller: function($scope, $element, $attrs, $location) {
-			$scope.new_day_open = false;
+			$scope.show_form = false;
 
-			$scope.testFn = function() {
-				$scope.new_day_open = false;
-				console.log($scope);
-				$scope.ctrlrFn($scope.day,$scope.widgetName);
+			$scope.directiveAddWidget = function() {
+				$scope.show_form = false;
+				//call the controller function
+				$scope.addWidget($scope.day,$scope.widgetName);
+				//clear the form
 				$scope.widgetName = "";
 			};
 
@@ -133,13 +133,7 @@ app.factory('Schedule', function(){
 	};
 
 	var addDay = function() {
-		var max_day = _.max(schedule.days, function(day){
-			return day.dayId;
-		});
-		schedule.days.push({
-			dayId: max_day.dayId + 1,
-			dayWidget: []
-		});
+
 	};
 
 
