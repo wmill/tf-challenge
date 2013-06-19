@@ -4,7 +4,12 @@ var app = angular.module('scheduler', []);
 app.controller("ScheduleController", function ($scope, Schedule){
 	$scope.schedule = Schedule.schedule;
 	$scope.title = "Scheduler";
-	$scope.new_day_open = {};
+	//$scope.new_day_open = {};
+	$scope.dragging = false;
+
+	$scope.highlightTargets = function(highlight){
+		$scope.dragging = highlight;
+	}
 
 	$scope.addWidget = function(day, widgetName){
 
@@ -54,9 +59,15 @@ app.directive('draggablewidget', function(){
 			$element.attr('draggable', true);
 			$element.on('dragstart', function(e) {
 				//data is sent as text, so JSON encode it.
+
 				e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
 					widgetId: $attrs.draggablewidget
 				}));
+				$scope.highlightTargets(true);
+			});
+			$element.on('dragend', function(e) {
+				$scope.highlightTargets(false);
+				$scope.$apply();
 			});
 
 		}
@@ -79,6 +90,13 @@ app.directive('recieveswidget', function(){
 				e.preventDefault();
 
 				$scope.moveWidget(dayId, data.widgetId);
+			});
+			$element.on('dragenter', function(e){
+				$element.addClass('droptarget');
+				console.log('dragenter');
+			});
+			$element.on('dragleave', function(e){
+				$element.removeClass('droptarget');
 			});
 		}
 	};

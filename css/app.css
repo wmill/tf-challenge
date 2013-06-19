@@ -1,33 +1,38 @@
 .schedule {
-	border:1px solid black;
+	/*border:1px solid black;*/
 	overflow-x: scroll;
 	white-space: nowrap;
 }
 
 .day {
-	vertical-align: text-top;
-	border:1px solid black;
+	vertical-align: top;
+	text-align: center;
 	display: inline-block;
-	padding: 0 !IMPORTANT;
-	margin: 0 !IMPORTANT;
+
 }
 
 .day-details {
 	width: 100px; 
 	height: 75px;
-	padding: 0 !IMPORTANT;
-	margin: 0 !IMPORTANT;
+	border:1px solid black;
 }
 
-
+div.droptarget .day-details{
+	background-color: #08C !IMPORTANT;
+	color: #fff;
+}
 
 .widgets {
 
 }
 
 .widget {
-	margin: 5px;
+	margin: 10px 5px 5px 10px;
+}
 
+.widget:hover {
+	background-color: #08C;
+	color: #fff;
 }
 
 .new-widget-btn {
@@ -35,10 +40,10 @@
 }
 
 .new-day-btn-container {
+	padding-top: 30px;
 	display: inline-block;
 }
 
 .new-day-btn {
-	padding-top: 20px;
 	display: block;
 }

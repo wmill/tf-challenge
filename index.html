@@ -9,18 +9,19 @@
 <link href="lib/css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 <body ng-controller='ScheduleController'>
-<h1><span ng-hide="editing" ng-click="editing = true">{{title}}</span>
-  <form ng-show="editing" ng-submit="editing = false">
+<h1><span ng-hide="editing_title" ng-click="editing_title = true">{{title}}</span>
+  <form ng-show="editing_title" ng-submit="editing_title = false">
     <label>Title:</label>
     <input type="text" ng-model="title" placeholder="{{title}}" ng-required/>
     <br/>
     <button class="btn" type="submit">Save</button>
-   </form></h1>
+   </form>
+</h1>
 
 <div class="schedule">
     <div class='day' ng-repeat="day in schedule.days" recieveswidget='{{day.dayId}}'>
         <div class='day-details'>
-            {{day.dayId}}
+            <h2>{{day.dayId}}</h2>
         </div>
         <div class='widgets'>
             <div class='widget'  draggablewidget='{{widget.widgetId}}' ng-repeat="widget in day.dayWidget">{{widget.widgetName}}</div>
