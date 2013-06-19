@@ -14,13 +14,8 @@ app.controller("ScheduleController", function ($scope, Schedule){
 	$scope.new_day_open = {};
 
 	$scope.ctrlrFn = function(day, widgetName){
-		//$scope.new_day_open[dayId] = true;
-		//console.log(dayId, widgetName);
 
 		day.dayWidget.push({widgetId: guid(), widgetName: widgetName});
-
-
-		//current_day = day for day in $scope.schedule.days when day.dayId == dayId
 
 	};
 
@@ -34,13 +29,7 @@ app.directive("widget", function(){
 	return {
 		restrict: 'E',
 		scope: true,
-		template: '<form ng-show="new_day_open" ng-submit="testFn()">' +
-		'<input type="text" ng-model="widgetName" ng-required/>' +
-		'<br/>' +
-		'<button class="btn" type="submit">Save</button>' +
-		'<button class="btn" ng-click="new_day_open = false">Cancel</button>' +
-		'</form>' +
-		'<button ng-hide="new_day_open" class="btn-block new-widget-btn" ng-click="new_day_open = true">+</button>',
+		templateUrl: 'templates/widget.html',
 		controller: function($scope, $element, $attrs, $location) {
 			$scope.new_day_open = false;
 
