@@ -1,5 +1,5 @@
 .schedule {
-	/*border:1px solid black;*/
+
 	overflow-x: scroll;
 	white-space: nowrap;
 }
@@ -24,6 +24,10 @@ div.droptarget .day-details{
 
 .widgets {
 
+}
+
+.drop-target {
+	border:1px solid black;
 }
 
 .widget {

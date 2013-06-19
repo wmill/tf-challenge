@@ -4,17 +4,10 @@ var app = angular.module('scheduler', []);
 app.controller("ScheduleController", function ($scope, Schedule){
 	$scope.schedule = Schedule.schedule;
 	$scope.title = "Scheduler";
-	//$scope.new_day_open = {};
-	$scope.dragging = false;
 
-	$scope.highlightTargets = function(highlight){
-		$scope.dragging = highlight;
-	}
 
 	$scope.addWidget = function(day, widgetName){
-
 		day.dayWidget.push({widgetId: guid(), widgetName: widgetName});
-
 	};
 
 	$scope.addDay = function(){
@@ -43,9 +36,13 @@ app.controller("ScheduleController", function ($scope, Schedule){
 			}
 		}
 
+		//find the day for the id
+
 		var day = _.find($scope.schedule.days, function(day){
 			return day.dayId === dayId;
 		});
+
+		//add it, notify angular
 		day.dayWidget.push(widget);
 		$scope.$apply();
 	};
@@ -59,17 +56,10 @@ app.directive('draggablewidget', function(){
 			$element.attr('draggable', true);
 			$element.on('dragstart', function(e) {
 				//data is sent as text, so JSON encode it.
-
 				e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
 					widgetId: $attrs.draggablewidget
 				}));
-				$scope.highlightTargets(true);
 			});
-			$element.on('dragend', function(e) {
-				$scope.highlightTargets(false);
-				$scope.$apply();
-			});
-
 		}
 	};
 });
@@ -93,7 +83,6 @@ app.directive('recieveswidget', function(){
 			});
 			$element.on('dragenter', function(e){
 				$element.addClass('droptarget');
-				console.log('dragenter');
 			});
 			$element.on('dragleave', function(e){
 				$element.removeClass('droptarget');
@@ -160,6 +149,7 @@ app.factory('Schedule', function(){
 
 
 //helper functions
+//stackoverflow js uuid
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
              .toString(16)
