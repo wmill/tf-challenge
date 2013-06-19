@@ -105,6 +105,8 @@ app.directive("widget", function(){
 	};
 });
 
+
+//paste in new test data here
 app.factory('Schedule', function(){
 	var schedule = {
 		name: 'My Project',
@@ -132,14 +134,9 @@ app.factory('Schedule', function(){
 		]
 	};
 
-	var addDay = function() {
-
-	};
-
 
 	return {
-		'schedule': schedule,
-		'addDay': addDay
+		'schedule': schedule
 	};
 });
 
