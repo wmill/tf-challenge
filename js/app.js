@@ -52,12 +52,12 @@ app.directive('draggablewidget', function(){
 	return {
 		scope: true,
 		restrict: 'A',
-		controller: function($scope, $element, $attrs, $location){
-			$element.attr('draggable', true);
-			$element.on('dragstart', function(e) {
+		link: function(scope, element, attrs, location){
+			element.attr('draggable', true);
+			element.on('dragstart', function(e) {
 				//data is sent as text, so JSON encode it.
 				e.originalEvent.dataTransfer.setData('text/plain', JSON.stringify({
-					widgetId: $attrs.draggablewidget
+					widgetId: attrs.draggablewidget
 				}));
 			});
 		}
@@ -68,24 +68,24 @@ app.directive('recieveswidget', function(){
 	return {
 		restrict: 'A',
 		scope: true,
-		controller: function($scope, $element, $attrs, $location) {
-			$element.on('dragover', function(e){
+		link: function(scope, element, attrs, location) {
+			element.on('dragover', function(e){
 				e.preventDefault();
 			});
-			$element.on('drop', function(e){
+			element.on('drop', function(e){
 				//everything is a string, need to parse it
-				var dayId = parseInt($attrs.recieveswidget,10);
+				var dayId = parseInt(attrs.recieveswidget,10);
 				var data = JSON.parse(e.originalEvent.dataTransfer.getData('text/plain'));
 
 				e.preventDefault();
 
-				$scope.moveWidget(dayId, data.widgetId);
+				scope.moveWidget(dayId, data.widgetId);
 			});
-			$element.on('dragenter', function(e){
-				$element.addClass('droptarget');
+			element.on('dragenter', function(e){
+				element.addClass('droptarget');
 			});
-			$element.on('dragleave', function(e){
-				$element.removeClass('droptarget');
+			element.on('dragleave', function(e){
+				element.removeClass('droptarget');
 			});
 		}
 	};
@@ -97,15 +97,15 @@ app.directive("widget", function(){
 		restrict: 'E',
 		scope: true,
 		templateUrl: 'templates/widget.html',
-		controller: function($scope, $element, $attrs, $location) {
-			$scope.show_form = false;
+		link: function(scope, element, attrs, location) {
+			scope.show_form = false;
 
-			$scope.directiveAddWidget = function() {
-				$scope.show_form = false;
+			scope.directiveAddWidget = function() {
+				scope.show_form = false;
 				//call the controller function
-				$scope.addWidget($scope.day,$scope.widgetName);
+				scope.addWidget(scope.day, scope.widgetName);
 				//clear the form
-				$scope.widgetName = "";
+				scope.widgetName = "";
 			};
 
 		}
